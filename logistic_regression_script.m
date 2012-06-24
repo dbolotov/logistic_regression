@@ -6,7 +6,6 @@
 % Functions used: sigmoid.m, costFunction.m
 %
 % Code based on ml-class.org Ex.2
-% 
 
 %to do:
 %generate confusion matrix
@@ -14,7 +13,7 @@
 
 
 %Input must contain feature columns followed by dependent variable column at end
-data = load('class_function_01.txt');
+data = load('class_function_02.txt');
 
 %logistic regression parameters
 alpha = 0.01;
@@ -58,11 +57,17 @@ fprintf('Training set accuracy: %f\n', mean(double(p_train == y)) * 100);
 p_test = double(sigmoid(X_test*theta) >= 0.5);
 fprintf('Test set accuracy: %f\n', mean(double(p_test == y_test)) * 100);
 
-%confusion matrix
-cm = confusionmat(y_test,p_test);
+%confusion matrix, sensitivity, specificity
+cm = confMatrix(y_test,p_test);
 sens = cm(1,1) / (cm(1,1) + cm(1,2)); %ability to identify positive class
 spec = cm(2,2) / (cm(2,2) + cm(2,1)); %ability to identify negative class
 
+
+
+cm
+
+sens
+spec
 
 
 
