@@ -13,6 +13,9 @@ data = load('class_function_02.txt');
 %percentage of data to use for training
 train_frac = .77;
 
+%threshold for classifying hypothesis output
+thresh = 0.5;
+
 %extract columns to use
 X = data(:,1:end-1);
 y = data(:,end);
@@ -42,22 +45,23 @@ fprintf('theta: \n');
 fprintf(' %f \n', theta);
 
 %prediction accuracy
-p_train = double(sigmoid(X*theta) >= 0.5);
+p_train = double(sigmoid(X*theta) >= thresh);
 fprintf('Training set accuracy: %f\n', mean(double(p_train == y)) * 100);
 
-p_test = double(sigmoid(X_test*theta) >= 0.5);
+p_test = double(sigmoid(X_test*theta) >= thresh);
 fprintf('Test set accuracy: %f\n', mean(double(p_test == y_test)) * 100);
 
-%confusion matrix, sensitivity, specificity
+%confusion matrix, sensitivity, specificity, misclassification error
 cm = confMatrix(y_test,p_test);
 sens = cm(1,1) / (cm(1,1) + cm(1,2)); %ability to identify positive class
 spec = cm(2,2) / (cm(2,2) + cm(2,1)); %ability to identify negative class
 
-cm
+testError = misclassError(y_test,sigmoid(X_test*theta),thresh); %0/1 misclassification error on test set
 
-sens
-spec
-
+fprintf('Confusion Matrix:\n');disp(cm)
+fprintf('Sensitivity: %g\n',sens);
+fprintf('Specificity: %g\n',spec);
+fprintf('Misclassification error on test set: %g\n',testError);
 
 
 
