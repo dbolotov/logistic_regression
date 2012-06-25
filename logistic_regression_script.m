@@ -3,7 +3,7 @@
 % Perform logistic regression; predict output (2-class variable) using
 % unconstrained optimization routine (fminunc)
 %
-% Functions used: sigmoid.m, costFunction.m
+% Functions used: sigmoid.m, costFunction.m, misclassError.m, confMatrix.m
 %
 % Code based on ml-class.org Ex.2
 
