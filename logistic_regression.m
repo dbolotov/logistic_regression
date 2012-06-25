@@ -1,16 +1,17 @@
-function [theta,y_hat_train,y_hat_test,cm,sensitivity,specificity] = logistic_regression(dataset,train_frac,verb_flag)
+function [theta,y_hat_train,y_hat_test,cm,sens,spec] = logistic_regression(dataset,train_frac,thresh,metrics_flag)
 
 % LOGISTIC_REGRESSION performs classification for a 2-class dependent
 % variable using unconstrained optimization routine (fminunc)
 %
-% [theta,y_hat_train,y_hat_test,cm,sens,spec] = LOGISTIC_REGRESSION(dataset,train_frac,verb_flag)
+% [theta,y_hat_train,y_hat_test,cm,sens,spec] = LOGISTIC_REGRESSION(dataset,train_frac,thresh,metrics_flag)
 %
 % Input:
 % dataset: .txt format, without header
 % train_frac: fraction of dataset to use for training (0 to 1)
+% thresh: threshold for classifying hypothesis output
 % verb_flag: display regression results (0 = don't display, 1 = do display)
 %
-% Functions used: sigmoid.m, costFunction.m
+% Functions used: sigmoid.m, costFunction.m, misclassError.m, confMatrix.m
 %
 % Code based on ml-class.org Ex.2
 
@@ -43,22 +44,27 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 	fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
 
 %prediction accuracy
-y_hat_train = double(sigmoid(X*theta) >= 0.5);
-fprintf('Training set accuracy: %f\n', mean(double(y_hat_train == y)) * 100);
-
-y_hat_test = double(sigmoid(X_test*theta) >= 0.5);
-fprintf('Test set accuracy: %f\n', mean(double(y_hat_test == y_test)) * 100);
+y_hat_train = double(sigmoid(X*theta) >= thresh);
+y_hat_test = double(sigmoid(X_test*theta) >= thresh);
 
 %confusion matrix, sensitivity, specificity
 cm = confMatrix(y_test,y_hat_test);
-sensitivity = cm(1,1) / (cm(1,1) + cm(1,2)); %ability to identify positive class
-specificity = cm(2,2) / (cm(2,2) + cm(2,1)); %ability to identify negative class
+sens = cm(1,1) / (cm(1,1) + cm(1,2)); %ability to identify positive class
+spec= cm(2,2) / (cm(2,2) + cm(2,1)); %ability to identify negative class
 
-if verb_flag == 1 %Display metrics
-    cm
-    sensitivity
-    specificity
-    theta
+testError = misclassError(y_test,sigmoid(X_test*theta),thresh); %0/1 misclassification error on test set
+
+if metrics_flag == 1 %Display metrics
+    fprintf('Theta:\n'); disp(theta);
+
+    fprintf('Training set accuracy: %f\n', mean(double(y_hat_train == y)) * 100);
+    fprintf('Test set accuracy: %f\n', mean(double(y_hat_test == y_test)) * 100);
+
+    fprintf('Confusion Matrix:\n');disp(cm)
+    fprintf('Sensitivity: %g\n',sens);
+    fprintf('Specificity: %g\n',spec);
+
+    fprintf('Misclassification error on test set: %g\n',testError);
 end
 
 end
