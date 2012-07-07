@@ -1,14 +1,24 @@
-%Logistic Regression
-%
-% Perform logistic regression; predict output (2-class variable) using
-% unconstrained optimization routine (fminunc)
+%logistic_regression_script.m
+% 
+% Perform logistic regression for a 2-class dataset. 
+% Learn regression params with built-in MATLAB/Octave unconstrained
+% optimization routine, fminunc.
+% 
+% Overview:
+% Take in a csv file (without header)
+% Split into a training and test set
+% Minimize cost function with fminunc
+% Compute performance metrics:
+%	prediction accuracy on training and test sets
+%	confusion matrix, specificity, sensitivity 
+%	misclassification error
 %
 % Functions used: sigmoid.m, costFunction.m, misclassError.m, confMatrix.m
 %
 % Code based on ml-class.org Ex.2
 
 %Input must contain feature columns followed by dependent variable column at end
-data = load('class_function_02.txt');
+data = load('class_function_01.txt');
 
 %percentage of data to use for training
 train_frac = .77;
