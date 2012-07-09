@@ -11,3 +11,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import mat, c_, r_, array
+
+#functions
+
+#script
+
+#EOF
