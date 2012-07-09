@@ -12,13 +12,13 @@
 
 # Code ported from logistic_regression_script.m, based on ml-class.org Ex.2
 
-from __future__ import division
+#from __future__ import division
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy import mat, c_, r_, array, e, newaxis
+from numpy import mat, c_, r_, array, e#, newaxis
 from scipy import optimize as op
-from numpy.linalg import *
+#from numpy.linalg import *
 
 # Define functions
 
