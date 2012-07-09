@@ -12,10 +12,13 @@
 
 # Code ported from logistic_regression_script.m, based on ml-class.org Ex.2
 
+from __future__ import division
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy import mat, c_, r_, array, e
-from scipy import optimize
+from numpy import mat, c_, r_, array, e, newaxis
+from scipy import optimize as op
+from numpy.linalg import *
 
 # Define functions
 
@@ -26,10 +29,26 @@ def sigmoid(z):
 def costFunction(theta,X,y): #computes cost given predicted and actual values
 	m = X.shape[0] #number of training examples
 	
-	J = (1/m) * (-np.transpose(y)*log(sigmoid(X*theta)) - np.transpose(1-y)*log(1-sigmoid(X*theta)))
+	J = (1/m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))))
 	
+	J = (1/m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))) - np.transpose(1-y).dot(np.log(1-sigmoid(X.dot(theta)))))
+	
+	#J = (1/m) * (-np.transpose(y)*np.log(sigmoid(X*theta)) - np.transpose(1-y)*np.log(1-sigmoid(X*theta)))
+	
+
 	grad = np.transpose((1/m)*np.transpose(sigmoid(X*theta) - y)*X)
 	return J,grad
+
+def misclassError(y,y_hat,thresh):
+	#y = actual value
+	#y_hat = predicted value
+	#thresh = probability threshold for 2-class variable
+	
+	m = X.shape[0] #number of training examples
+	#testError = (1/m) * sum(double(y_hat>=thresh
+	testError = 0
+	return testError
+
 
 # Logistic regression script
 
@@ -40,8 +59,8 @@ train_perc = 0.7# Percentage of data to use for training
 thresh = 0.5 # Threshold for classifying hypothesis output
 
 # Separate input file into independent and dependent arrays
-X = mat(data[:,:-1])
-y = np.transpose(mat(data[:,-1]))
+X = array(data[:,:-1])
+y = np.transpose(array(data[:,-1]))
 
 # Separate input file into training and test sets
 test_rows = int(round(X.shape[0] * (1-train_perc))) #no. of rows in test set
@@ -56,13 +75,14 @@ X = c_[np.ones(X.shape[0]), X]
 X_test = c_[np.ones(X_test.shape[0]), X_test]
 
 # Initialize fitting parameters
-initial_theta = mat(np.zeros((X.shape[1],1)))
+initial_theta = array(np.zeros((X.shape[1],1)))
 
+# Set options for optimization
+options = {'full_output':True, 'maxiter':400}
 
-
-
-
-
+sys.exit()
+# Run fmin
+theta, cost, _, _, _, = op.fmin(lambda t: costFunction(t,X,y), initial_theta, **options)
 
 
 
