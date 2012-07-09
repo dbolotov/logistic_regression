@@ -12,13 +12,11 @@
 
 # Code ported from logistic_regression_script.m, based on ml-class.org Ex.2
 
-#from __future__ import division
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy import mat, c_, r_, array, e#, newaxis
+from numpy import mat, c_, r_, array, e
 from scipy import optimize as op
-#from numpy.linalg import *
 
 # Define functions
 
@@ -29,13 +27,8 @@ def sigmoid(z):
 def costFunction(theta,X,y): #computes cost given predicted and actual values
 	m = X.shape[0] #number of training examples
 	
-	J = (1/m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))))
-	
 	J = (1/m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))) - np.transpose(1-y).dot(np.log(1-sigmoid(X.dot(theta)))))
 	
-	#J = (1/m) * (-np.transpose(y)*np.log(sigmoid(X*theta)) - np.transpose(1-y)*np.log(1-sigmoid(X*theta)))
-	
-
 	grad = np.transpose((1/m)*np.transpose(sigmoid(X*theta) - y)*X)
 	return J,grad
 
@@ -55,7 +48,7 @@ def misclassError(y,y_hat,thresh):
 # Input: feature columns followed by dependent class column at end
 data = np.loadtxt('class_function_01.txt',delimiter=',')
 
-train_perc = 0.7# Percentage of data to use for training
+train_perc = 0.77# Percentage of data to use for training
 thresh = 0.5 # Threshold for classifying hypothesis output
 
 # Separate input file into independent and dependent arrays
