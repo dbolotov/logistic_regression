@@ -26,11 +26,14 @@ def sigmoid(z):
 
 def costFunction(theta,X,y): #computes cost given predicted and actual values
 	m = X.shape[0] #number of training examples
+	theta = reshape(theta,(len(theta),1))
+
+	y = reshape(y,(len(y),1))
 	
 	J = (1/m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))) - np.transpose(1-y).dot(np.log(1-sigmoid(X.dot(theta)))))
 	
 	grad = np.transpose((1/m)*(sigmoid(X.dot(theta)) - y).dot(X))
-	return J,grad
+	return J[0][0],grad
 
 def misclassError(y,y_hat,thresh):
 	#y = actual value
@@ -70,11 +73,12 @@ X_test = c_[np.ones(X_test.shape[0]), X_test]
 
 # Initialize fitting parameters
 initial_theta = array(np.zeros((X.shape[1],1)))
+initial_theta = reshape(initial_theta,len(initial_theta),) #flatten into 1-d array
 
 # Set options for optimization
 options = {'full_output':True, 'maxiter':400}
 
-sys.exit()
+#sys.exit()
 # Run fmin
 theta, cost, _, _, _, = op.fmin(lambda t: costFunction(t,X,y), initial_theta, **options)
 
