@@ -52,8 +52,9 @@ def misclassError(y,y_hat,thresh):
 # Input: feature columns followed by dependent class column at end
 data = np.loadtxt('class_function_01.txt',delimiter=',')
 
-train_perc = 0.77# Percentage of data to use for training
-thresh = 0.5 # Threshold for classifying hypothesis output
+train_perc = 0.77 #Percentage of data to use for training
+fmin_iter = 500 #Number of iterations for optimize.fmin
+thresh = 0.5 #Threshold for classifying hypothesis output
 
 # Separate input file into independent and dependent arrays
 X = array(data[:,:-1])
@@ -79,11 +80,16 @@ initial_theta = reshape(initial_theta,len(initial_theta),) #flatten into 1-d arr
 J_init = costFunction(initial_theta,X,y)
 
 # Set options for optimization
-options = {'full_output':True, 'maxiter':400}
+options = {'full_output':True, 'maxiter':fmin_iter}
 
 #sys.exit()
 # Run fmin
+print 'fmin results:'
 theta, cost, _, _, _, = op.fmin(lambda t: costFunction(t,X,y), initial_theta, **options)
+
+# Print theta to screen
+print '\nCost at theta found by fmin: %g' % cost
+print '\nParameters theta:', theta
 
 
 
