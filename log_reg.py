@@ -36,6 +36,11 @@ def costFunction(theta,X,y): #computes cost given predicted and actual values
 	#optimize.fmin expects a single value, so cannot return grad
 	return J[0][0]#,grad
 
+def pred_accuracy(theta,X,y,thresh):# compute prediction accuracy
+	p = (sigmoid(X.dot(c_[theta])) >= thresh) #compare y_hat and y
+	p = np.mean(p == y)*100 #find percentage of correct predictions 
+	return p
+
 def misclassError(y,y_hat,thresh):
 	#y = actual value
 	#y_hat = predicted value
@@ -91,8 +96,11 @@ theta, cost, _, _, _, = op.fmin(lambda t: costFunction(t,X,y), initial_theta, **
 print '\nCost at theta found by fmin: %g' % cost
 print '\nParameters theta:', theta
 
-
-
+# Prediction accuracy
+p_train = pred_accuracy(theta,X,y,thresh)
+p_test = pred_accuracy(theta,X_test,y_test,thresh)
+print '\nAccuracy on training set: %g' % p_train
+print 'Accuracy on test set: %g' % p_test
 
 
 
