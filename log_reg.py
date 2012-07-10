@@ -17,6 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy import mat, c_, r_, array, e, reshape
 from scipy import optimize as op
+import itertools
 
 # Define functions
 
@@ -36,10 +37,15 @@ def costFunction(theta,X,y): #computes cost given predicted and actual values
 	#optimize.fmin expects a single value, so cannot return grad
 	return J[0][0]#,grad
 
-def pred_accuracy(theta,X,y,thresh):# compute prediction accuracy
-	p = (sigmoid(X.dot(c_[theta])) >= thresh) #compare y_hat and y
-	p = np.mean(p == y)*100 #find percentage of correct predictions 
+def prediction(theta,X,thresh): #compute prediction (y_hat)
+	p = (sigmoid(X.dot(c_[theta])) >= thresh)
 	return p
+
+def pred_accuracy(theta,X,y,thresh):# compute prediction accuracy
+	p = prediction(theta,X,thresh)
+	#p = (sigmoid(X.dot(c_[theta])) >= thresh) #compare y_hat and y
+	pa = np.mean(p == y)*100 #find percentage of correct predictions 
+	return pa
 
 def misclassError(y,y_hat,thresh):
 	#y = actual value
@@ -50,7 +56,11 @@ def misclassError(y,y_hat,thresh):
 	#testError = (1/m) * sum(double(y_hat>=thresh
 	testError = 0
 	return testError
-
+def confMat(y,y_hat):
+	classes = list(set(reshape(y,(len(y),)))) #get possible classes
+	n=len(classes)
+	cm = np.array([zip(y,y_hat).count(x) for x in itertools.product(classes,repeat=2)]).reshape(n,n)
+	return cm
 
 # Logistic regression script
 
@@ -102,6 +112,8 @@ p_test = pred_accuracy(theta,X_test,y_test,thresh)
 print '\nAccuracy on training set: %g' % p_train
 print 'Accuracy on test set: %g' % p_test
 
+# Confusion matrix, sensitivity, specificity, misclassification error
+cm = confMat(y_test,prediction(theta,X_test,thresh))
 
 
 # EOF
