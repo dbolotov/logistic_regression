@@ -15,7 +15,7 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy import mat, c_, r_, array, e
+from numpy import mat, c_, r_, array, e, reshape
 from scipy import optimize as op
 
 # Define functions
@@ -29,7 +29,7 @@ def costFunction(theta,X,y): #computes cost given predicted and actual values
 	
 	J = (1/m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))) - np.transpose(1-y).dot(np.log(1-sigmoid(X.dot(theta)))))
 	
-	grad = np.transpose((1/m)*np.transpose(sigmoid(X*theta) - y)*X)
+	grad = np.transpose((1/m)*(sigmoid(X.dot(theta)) - y).dot(X))
 	return J,grad
 
 def misclassError(y,y_hat,thresh):
@@ -53,7 +53,8 @@ thresh = 0.5 # Threshold for classifying hypothesis output
 
 # Separate input file into independent and dependent arrays
 X = array(data[:,:-1])
-y = np.transpose(array(data[:,-1]))
+y = array(data[:,-1])
+y = reshape(y,(len(y),1))
 
 # Separate input file into training and test sets
 test_rows = int(round(X.shape[0] * (1-train_perc))) #no. of rows in test set
