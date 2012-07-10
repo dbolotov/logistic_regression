@@ -33,7 +33,8 @@ def costFunction(theta,X,y): #computes cost given predicted and actual values
 	J = (1./m) * (-np.transpose(y).dot(np.log(sigmoid(X.dot(theta)))) - np.transpose(1-y).dot(np.log(1-sigmoid(X.dot(theta)))))
 	
 	grad = np.transpose((1./m)*np.transpose(sigmoid(X.dot(theta)) - y).dot(X))
-	return J[0][0],grad
+	#optimize.fmin expects a single value, so cannot return grad
+	return J[0][0]#,grad
 
 def misclassError(y,y_hat,thresh):
 	#y = actual value
@@ -75,7 +76,7 @@ X_test = c_[np.ones(X_test.shape[0]), X_test]
 initial_theta = array(np.zeros((X.shape[1],1)))
 initial_theta = reshape(initial_theta,len(initial_theta),) #flatten into 1-d array
 
-J_init,grad_init = costFunction(initial_theta,X,y)
+J_init = costFunction(initial_theta,X,y)
 
 # Set options for optimization
 options = {'full_output':True, 'maxiter':400}
