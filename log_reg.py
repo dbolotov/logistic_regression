@@ -12,9 +12,7 @@
 
 # Code ported from logistic_regression_script.m, based on ml-class.org Ex.2
 
-import sys
-import numpy as np
-import matplotlib.pyplot as plt
+import sys, numpy as np, matplotlib.pyplot as plt
 from numpy import mat, c_, r_, array, e, reshape
 from scipy import optimize as op
 import itertools
@@ -114,6 +112,20 @@ print 'Accuracy on test set: %g' % p_test
 
 # Confusion matrix, sensitivity, specificity, misclassification error
 cm = confMat(y_test,prediction(theta,X_test,thresh))
+sens = float(cm[0][0])/(cm[0][0] + cm[0][1])
+spec = float(cm[1][1])/(cm[1][1] + cm[1][0])
+
+print '\nConfusion matrix:\n', cm
+print '\nSensitivity: %g' % sens
+print '\nSpecificity: %g' % spec
+
+
+
+
+
+
+
+
 
 
 # EOF
