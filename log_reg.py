@@ -112,8 +112,8 @@ print 'Accuracy on test set: %g' % p_test
 
 # Confusion matrix, sensitivity, specificity, misclassification error
 cm = confMat(y_test,prediction(theta,X_test,thresh))
-sens = float(cm[0][0])/(cm[0][0] + cm[0][1])
-spec = float(cm[1][1])/(cm[1][1] + cm[1][0])
+sens = 1.0*(cm[0][0])/(cm[0][0] + cm[0][1])
+spec = 1.0*(cm[1][1])/(cm[1][1] + cm[1][0])
 
 print '\nConfusion matrix:\n', cm
 print '\nSensitivity: %g' % sens
