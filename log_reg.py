@@ -15,7 +15,7 @@
 
 # Code uses 'class_function_01.txt' as example dataset.
 
-# Code ported from logistic_regression_script.m, based on ml-class.org Ex.2
+# Code ported from logistic_regression_script.m, based on ml-class.org, Ex.2
 
 import sys, numpy as np
 from numpy import mat, c_, r_, array, e, reshape
