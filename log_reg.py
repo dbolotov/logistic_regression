@@ -2,17 +2,22 @@
 #Filename: log_reg.py
 
 # Template procedure to perform logistic regression for a 2-class problem.
-# Learn regression parameters with SciPy's optimize package.
+# Learn regression parameters with SciPy's optimize.fmin.
 
 # Overview:
 # Take in csv file (without header)
 # Split into training and test set
 # Minimize cost function
-# Compute performance metrics
+# Compute performance metrics:
+#	Taining and test set accuracy
+#	Confusion matrix, specificity, sensitivity
+#	Misclassification error
+
+# Code uses 'class_function_01.txt' as example dataset.
 
 # Code ported from logistic_regression_script.m, based on ml-class.org Ex.2
 
-import sys, numpy as np, matplotlib.pyplot as plt
+import sys, numpy as np
 from numpy import mat, c_, r_, array, e, reshape
 from scipy import optimize as op
 import itertools
@@ -45,15 +50,6 @@ def pred_accuracy(theta,X,y,thresh):# compute prediction accuracy
 	pa = np.mean(p == y)*100 #find percentage of correct predictions 
 	return pa
 
-def misclassError(y,y_hat,thresh):
-	#y = actual value
-	#y_hat = predicted value
-	#thresh = probability threshold for 2-class variable
-	
-	m = X.shape[0] #number of training examples
-	#testError = (1/m) * sum(double(y_hat>=thresh
-	testError = 0
-	return testError
 def confMat(y,y_hat):
 	classes = list(set(reshape(y,(len(y),)))) #get possible classes
 	n=len(classes)
@@ -114,11 +110,13 @@ print 'Accuracy on test set: %g' % p_test
 cm = confMat(y_test,prediction(theta,X_test,thresh))
 sens = 1.0*(cm[0][0])/(cm[0][0] + cm[0][1])
 spec = 1.0*(cm[1][1])/(cm[1][1] + cm[1][0])
+misclassError = 1.0*(cm[0][1] + cm[1][0])/sum(sum(cm))
 
+print '\nPerformance on test set:'
 print '\nConfusion matrix:\n', cm
 print '\nSensitivity: %g' % sens
 print '\nSpecificity: %g' % spec
-
+print '\nMisclassification Error: %g' % misclassError
 
 
 
