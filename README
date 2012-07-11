@@ -1,1 +1,24 @@
-logistic regression (classification) algorithms developed in MATLAB
+Logistic regression (classification) algorithm template implemented in MATLAB and python.
+
+Suited for problems with continuous features and a 2-class dependent variable.
+
+Regression parameters are learned by minimizing a cost function with fminunc (MATLAB/Octave) and optimize.fmin (python).
+Splits input .csv file into training and test sets.
+
+Computes the following performance metrics:
+	Test and training set prediction accuracy
+	Confusion matrix, specificity, sensitivity
+	Misclassification error
+
+Uses class_function_01.txt as an example dataset.
+
+Code based on ml-class.org, Ex.2.
+
+Files:
+logistic_regression_script.m: development script.
+
+logistic_regression.m: above script, in function form. Allows specification of learning parameters.
+
+confMatrix.m, costFunction.m, misclassError.m, sigmoid.m: MATLAB functions used by main script and function.
+
+log_reg.py: python implementation of regression script.
