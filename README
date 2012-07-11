@@ -21,4 +21,4 @@ logistic_regression.m: above script, in function form. Allows specification of l
 
 confMatrix.m, costFunction.m, misclassError.m, sigmoid.m: MATLAB functions used by main script and function.
 
-log_reg.py: python implementation of regression script.
+log_reg.py: python implementation of regression script. 
